@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+  <title>Equalizer</title>
+  <script src="/bower_components/angular/angular.js"></script>
+  <script src="/scripts/main.js"></script>
+  <link rel="stylesheet" href="/css/reset.css" type="text/css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen" charset="utf-8">
+</head>
+<body data-ng-app="cogtech.central">
+  <section class="container" ng-controller="avgController as avg">
+    <div id="avg" class="clearfix">
+      <h1 class="title">Average Values Across {{avg.totalvisitors}} Visitors</h1>
+      <div class="graph">
+        <div data-ct-bar data-title="Low Alpha" data-color="red" data-value="avg.c.lowAlpha"></div>
+        <div data-ct-bar data-title="High Alpha" data-color="orange" data-value="avg.c.highAlpha"></div>
+      </div>
+      <aside>
+        <dl>
+          <dt>Low Alpha:</dt>
+          <dd>bla blbah blah </dd>
+          <dt>High Alpha:</dt>
+          <dd>bla blbah blah </dd>
+          <dt>Low Beta:</dt>
+          <dd>bla blbah blah </dd>
+          <dt>Hight Beta:</dt>
+          <dd>bla blbah blah </dd>
+          <dt>Low Gamma:</dt>
+          <dd>bla blbah blah </dd>
+          <dt>High Gamma:</dt>
+          <dd>bla blbah blah </dd>
+          <dt>Theta:</dt>
+          <dd>bla blbah blah </dd>
+        </dl>
+      </aside>
+    </div>
+  </section>
+</body>
+

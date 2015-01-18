@@ -1,0 +1,105 @@
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,500);
+
+/*http://www.paulirish.com/2012/box-sizing-border-box-ftw/*/
+html {
+  box-sizing: border-box;
+}
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
+body {
+  background: rgba(0,0,0,0.8);
+  height: 100%;
+  width:  100%;
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+  font-family: Roboto, arial, sans-serif;
+}
+
+.clearfix {
+  overflow: auto;
+}
+.container {
+  max-width: 1024px;
+  width: 100%;
+  margin: 0 auto;
+}
+h1.title {
+  color: white;
+  text-align:center;
+  margin: 0;
+  padding: 0;
+}
+#avg {
+  width: 100%;
+  background: black;
+  padding: 1em;
+  margin: 1em 0;
+  border: 1px solid white;
+  color: white;
+}
+#avg aside {
+  float: right;
+  width: 30%;
+}
+#avg aside dt {
+  font-weight: 700;
+  display: block;
+  float: left;
+  clear: both;
+}
+#avg aside dd {
+  display: inline;
+  margin-left: 0.5em;
+}
+#avg .graph {
+  width: 60%;
+  float: left;
+  height: 300px;
+  /* border: 1px solid red; */
+  border: 1px solid rgba(255, 255, 255, 0.69);
+  border-right: none;
+  border-top: none;
+}
+#avg .graph:after {
+  content: "";
+  display: block;
+  height: 1px;
+  width: 100%;
+  border-top: 1px dashed rgba(255, 255, 255, 0.69);
+  margin-top: 150px;
+  box-shadow: 1px 97px 0px rgba(255, 255, 255, 0.69);
+}
+#avg .graph .bar {
+  height: 280px;
+  position: relative;
+  width: 13%;
+  float: left;
+}
+#avg .graph .fill {
+  position: absolute;
+  bottom: 2.5em;
+  width: 50px;
+  left: 50%;
+  margin-left: -25px;
+  border: 1px solid rgba(51, 51, 51, 0.52);
+  border-top: 1px solid black;
+  transition: height 1s;
+}
+#avg .graph .title {
+  position: absolute;
+  bottom: 0px;
+  font-size: 1em;
+  text-align: center;
+}
+#avg .graph .red .fill {
+  background: rgb(247, 5, 5);
+  box-shadow: 1px -5px 2px rgba(255, 0, 0, 0.55);
+}
+#avg .graph .orange .fill {
+  background: rgb(255, 138, 6);
+  box-shadow: 1px -5px 2px rgba(255, 116, 0, 0.55);
+}
