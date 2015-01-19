@@ -25,7 +25,7 @@ angular.module('cogtech.central',[])
 
   $interval(function intervalDraw () {
     draw();
-  }, 2000);
+  }, 1000);
 
   draw = function draw () {
     angular.forEach(_this.waves, function (v) {
@@ -60,16 +60,16 @@ angular.module('cogtech.central',[])
     if (e === r[1]) {
       v = e += -1;
     }
-    if(a<400){
+    if (a < 400) {
       v = e +=1;
+    } else {
+      v = e += -1;
     }
-    v = e += -1;
     if(v <= 0 ) {
-      v = 1;
+      v = 1.5;
     }
     return v;
   };
-
   draw();
   fetch();
 
@@ -99,11 +99,15 @@ angular.module('cogtech.central',[])
     "<h2 class='title' data-ng-bind='data.title'></h2></div>";
   f.controllerAs = "data";
   f.controller = function ($timeout, $interval) {
-    var _this = this;
-    _this.height = (_this.value * 10 ) + "px";
+    var _this;
+    _this = this;
     $interval(function () {
-      _this.height = (_this.value * 10 ) + "px";
-    }, 1000);
+      _this.calcHeight();
+    }, 2000);
+    _this.calcHeight = function calcHeight () {
+      _this.height = _this.value > 0 ? parseInt(_this.value * 10 ) + "px" : "10px";
+    };
+    _this.calcHeight();
   };
   f.link = function (scope, elem, attrs, controller) {
     controller.title = attrs.title;
@@ -114,4 +118,9 @@ angular.module('cogtech.central',[])
     }, 1000);
   };
   return f;
+})
+.filter('intg', function() {
+    return function(input) {
+      return parseInt(input, 10);
+    };
 });
