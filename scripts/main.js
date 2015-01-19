@@ -43,6 +43,9 @@ angular.module('cogtech.central',[])
         _this.r[v] = [data[v].avg - data[v].std, data[v].avg + data[v].std];
       });
     });
+    $avg.visitors().then(function (data) {
+      _this.totalvisitors = parseInt(data.visitors, 10);
+    });
   };
 
   rand = function (e,r) {
@@ -75,6 +78,12 @@ angular.module('cogtech.central',[])
   var _this = this;
   _this.fetch = function fetch () {
     return $http.get('http://cloudbrain.rocks/data/aggregates/fft')
+    .then(function (response) {
+      return response.data;
+    });
+  };
+  _this.visitors = function visitors () {
+    return $http.get('http://cloudbrain.rocks/data/visitors')
     .then(function (response) {
       return response.data;
     });
