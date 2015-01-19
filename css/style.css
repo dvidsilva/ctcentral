@@ -24,7 +24,7 @@ body {
 }
 .container {
   max-width: 1024px;
-  width: 100%;
+  width: 1024px; /*100%;*/
   margin: 0 auto;
 }
 h1.title {
@@ -43,7 +43,7 @@ h1.title {
 }
 #avg aside {
   float: right;
-  width: 30%;
+  width: 400px;
 }
 #avg aside dt {
   font-weight: 700;
@@ -56,13 +56,14 @@ h1.title {
   margin-left: 0.5em;
 }
 #avg .graph {
-  width: 60%;
+  width: 500px;
   float: left;
-  height: 300px;
+  height: 270px;
   /* border: 1px solid red; */
   border: 1px solid rgba(255, 255, 255, 0.69);
   border-right: none;
   border-top: none;
+  margin: 0.5em 2em 0;
 }
 #avg .graph:after {
   content: "";
@@ -76,7 +77,8 @@ h1.title {
 #avg .graph .bar {
   height: 280px;
   position: relative;
-  width: 13%;
+  width: 100px;
+  margin-left: 1em;
   float: left;
 }
 #avg .graph .fill {
@@ -95,6 +97,7 @@ h1.title {
   bottom: 0px;
   font-size: 1em;
   text-align: center;
+  width: 100%;
 }
 #avg .graph .red .fill {
   background: rgb(247, 5, 5);
