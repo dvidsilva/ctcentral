@@ -85,9 +85,10 @@ h1.title {
   width: 50px;
   left: 50%;
   margin-left: -25px;
-  border: 1px solid rgba(51, 51, 51, 0.52);
-  border-top: 1px solid black;
-  transition: height 1s;
+  /* border: 1px solid rgba(51, 51, 51, 0.52); */
+  border: 1px solid black;
+  border-right: none;
+  transition: height 2s;
 }
 #avg .graph .title {
   position: absolute;
@@ -103,3 +104,12 @@ h1.title {
   background: rgb(255, 138, 6);
   box-shadow: 1px -5px 2px rgba(255, 116, 0, 0.55);
 }
+#avg .graph .green .fill {
+  background: rgb(107, 255, 6);
+  box-shadow: 1px -5px 2px rgba(74, 255, 0, 0.55);
+}
+#avg .graph .yellow .fill {
+  background: rgb(250, 255, 51);
+  box-shadow: 1px -5px 2px rgba(255, 246, 80, 0.65);
+}
+

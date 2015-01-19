@@ -1,40 +1,84 @@
 angular.module('cogtech.central',[])
-.controller('avgController', function ($interval) {
-  var _this = this, rand;
+.controller('avgController', function ($interval, $avg) {
+  var _this = this, rand, fetch, draw;
   _this.c = {};
   _this.r = {};
-  _this.r.lowAlphaRange = [10,20];
-  _this.c.lowAlpha = 10;
+  _this.waves = ['alpha', 'beta', 'gamma', 'theta'];
 
-  _this.r.highAlphaRange = [14,19];
-  _this.c.highAlpha = 13;
+  _this.r.alpha = [14,19];
+  _this.c.alpha = 13;
+
+  _this.r.beta = [14,19];
+  _this.c.beta = 13;
+
+  _this.r.gamma = [14,19];
+  _this.c.gamma = 13;
+
+  _this.r.theta = [14,19];
+  _this.c.theta = 13;
 
   _this.totalvisitors = 102;
-  _this.sampleRange = [10,20];
 
-  $interval(function () {
-    _this.c.lowAlpha = rand(_this.c.lowAlpha, _this.r.lowAlphaRange);
-    _this.c.highAlpha = rand(_this.c.highAlpha, _this.r.highAlphaRange);
-    console.log(_this.c.lowAlpha);
-  }, 1000);
+  $interval(function intervalCheck () {
+    fetch();
+  }, 120000);
 
-  rand = function (e,r) {
-    var a = Math.random() * 1000;
-    if(e > r[1] || e < r[0]) {
-      return r[0];
-    }
-    if (e === r[0]) {
-      return e += 1;
-    }
-    if (e === r[1]) {
-      return e += -1;
-    }
-    if(a<400){
-      return e +=1;
-    }
-    return e += -1;
+  $interval(function intervalDraw () {
+    draw();
+  }, 2000);
+
+  draw = function draw () {
+    angular.forEach(_this.waves, function (v) {
+      _this.c[v] = rand(_this.c[v], _this.r[v]);
+    });
   };
 
+  fetch = function fetch () {
+    $avg.fetch().then(function (data) {
+      if (!data) {
+        return;
+      }
+      angular.forEach(_this.waves, function (v) {
+        _this.c[v] = data[v].avg;
+        _this.r[v] = [data[v].avg - data[v].std, data[v].avg + data[v].std];
+      });
+    });
+  };
+
+  rand = function (e,r) {
+    var a, v;
+    a = Math.random() * 1000;
+    if(e > r[1] || e < r[0]) {
+      v = r[0];
+    }
+    if (e === r[0]) {
+      v = e += 1;
+    }
+    if (e === r[1]) {
+      v = e += -1;
+    }
+    if(a<400){
+      v = e +=1;
+    }
+    v = e += -1;
+    if(v <= 0 ) {
+      v = 1;
+    }
+    return v;
+  };
+
+  draw();
+  fetch();
+
+})
+.service('$avg', function ($http) {
+  var _this = this;
+  _this.fetch = function fetch () {
+    return $http.get('http://cloudbrain.rocks/data/aggregates/fft')
+    .then(function (response) {
+      return response.data;
+    });
+  };
 })
 .directive('ctBar', function ($interval) {
   var f = {};
