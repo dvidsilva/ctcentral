@@ -77,13 +77,13 @@ angular.module('cogtech.central',[])
 .service('$avg', function ($http) {
   var _this = this;
   _this.fetch = function fetch () {
-    return $http.get('http://cloudbrain.rocks/data/aggregates/fft')
+    return $http.jsonp('http://cloudbrain.rocks/data/aggregates/fft?callback=JSON_CALLBACK')
     .then(function (response) {
       return response.data;
     });
   };
   _this.visitors = function visitors () {
-    return $http.get('http://cloudbrain.rocks/data/visitors')
+    return $http.jsonp('http://cloudbrain.rocks/data/visitors?callback=JSON_CALLBACK')
     .then(function (response) {
       return response.data;
     });
