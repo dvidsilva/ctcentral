@@ -127,8 +127,30 @@ angular.module('cogtech.central',[])
       return parseInt(input, 10);
     };
 })
-.controller('spiderController', function ($spacebrew) {
+.controller('spiderController', function () {
+  // $spacebrew
+})
+.directive('ctSpider', function ($log) {
+  var f = {};
+  f.controllerAs = "graph";
+  f.controller = function () {
+  };
+  f.link = function(scope, elem, attrs, controller) {
+    $log.info(scope, elem, attrs, controller);
 
+    var w = 450;
+    var h = 300;
+    var radius = 100;
+
+    var interpStyleNum = 0;
+
+    var svg = d3.select(elem)
+    .append("svg")
+    .attr("width", w)
+    .attr("height", h)
+    .attr("class", "svg");
+  };
+  return f;
 })
 .service('$spacebrew', function ($timeout, $log) {
   var sb, _this;
