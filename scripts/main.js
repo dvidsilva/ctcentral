@@ -21,7 +21,7 @@ angular.module('cogtech.central',[])
 
   $interval(function intervalCheck () {
     fetch();
-  }, 60000);
+  }, 30000);
 
   $interval(function intervalDraw () {
     draw();
