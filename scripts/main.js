@@ -21,7 +21,7 @@ angular.module('cogtech.central',[])
 
   $interval(function intervalCheck () {
     fetch();
-  }, 120000);
+  }, 60000);
 
   $interval(function intervalDraw () {
     draw();
@@ -50,6 +50,9 @@ angular.module('cogtech.central',[])
 
   rand = function (e,r) {
     var a, v;
+    if(true) {
+      return e;
+    }
     a = Math.random() * 1000;
     if(e > r[1] || e < r[0]) {
       v = r[0];
@@ -123,4 +126,93 @@ angular.module('cogtech.central',[])
     return function(input) {
       return parseInt(input, 10);
     };
+})
+.controller('spiderController', function ($spacebrew) {
+
+})
+.service('$spacebrew', function ($timeout, $log) {
+  var sb, _this;
+  _this = this;
+  _this.museClients = [];
+  _this.client = {};
+  _this.options = {
+    name: 'data-visualization',
+    server : 'cloudbrain.rocks',
+    description : 'Main dashboard in room'
+  };
+  _this.waves = [
+    'alpha_absolute',
+    'beta_absolute',
+    'gamma_absolute',
+    'theta_absolute'
+  ];
+
+  sb = function init () {
+    var sb;
+    sb = new Spacebrew.Client(
+      _this.options.server, _this.options.name, _this.options.description, {debug: true}
+    );
+    sb.extend(Spacebrew.Admin);
+    sb.onStringMessage = function (name, value) {
+      $log.info('message received');
+      $log.info(name, value);
+    };
+    sb.onOpen = function () {
+      $log.info('connected to Spacebrew');
+    };
+    sb.onNewClient = function( client ) {
+      $log.info(client);
+      if(client.name && !!client.name.match(/muse/)) {
+        _this.museClients.push(client);
+        _this.addRoute();
+      }
+      if(client.name && client.name === _this.options.name) {
+        _this.client = client;
+        _this.addRoutes();
+      }
+    };
+    sb.onRemoveClient(function (client) {
+      $log.info(client);
+    });
+    angular.forEach(_this.waves, function (wave) {
+      sb.addSubscribe(wave, "string");
+    });
+    sb.connect();
+    return sb;
+  }();
+
+  _this.addRoutes = function addRoutes () {
+    angular.forEach(_this.museClients, function (c) {
+      _this.addRoute(c);
+    });
+  };
+
+  _this.addRoute = function addRoute (client) {
+    if(!_this.client.name) {
+      $log.info('postponing creation of routes');
+      return;
+    }
+    angular.forEach(_this.waves, function (wave) {
+      $log.info('adding route', client.name, client.remoteAddress, wave);
+      sb.addRoute( client.name, client.remoteAdress, wave,
+                  _this.client.name, _this.client.remoteAdress, wave);
+    });
+  };
+
+  // sb.addRoute( 'muse-001', 'remoteAdress', 'delta_absolute', 'data-viz', 'local adress', 'delta-absolute-muse-001' );
+
 });
+// http://cloudbrain.rocks/
+
+// http://spacebrew.github.io/spacebrew/admin/admin.html?server=cloudbrain.rocks
+// Request
+// GET request on /link with the following parameters:
+// publisher : The input data coming from the hardware (Muse headset for example).
+// subscriber : Set it to 'cloudbrain' to keep historical data. Can also be set to your spacebrew client to get live data.
+// pub_metric : The publisher name of the metric you want to route. See the Muse Metrics section below for the complete list.
+// sub_metric : The subscriber name of the metric you want to route.
+// Sample Request
+// GET 
+//
+// http://cloudbrain.rocks/link?pub_metric=beta_absolute&sub_metric=beta_absolute&publisher=muse-001&subscriber=data-visualization
+
