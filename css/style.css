@@ -10,9 +10,9 @@ html {
 
 
 body {
-  background: rgba(0,0,0,0.8);
-  height: 100%;
-  width:  100%;
+  background: rgba(0,0,0,1);
+  height: 750;
+  width:  1280;
   padding: 0;
   margin: 0;
   font-size: 15px;
@@ -24,22 +24,25 @@ body {
 }
 .container {
   max-width: 1024px;
-  width: 1024px; /*100%;*/
+  width: 1280px; /*100%;*/
   margin: 0 auto;
 }
 h1.title {
   color: white;
-  text-align:center;
+  text-align:left;
   margin: 0;
   padding: 0;
+  font-size: 1.2em;
 }
 #avg {
   width: 100%;
   background: black;
   padding: 1em;
-  margin: 1em 0;
-  border: 1px solid white;
+  margin: 0;
+  border-bottom: 1px solid white;
   color: white;
+  height: 220px;
+  overflow: hidden;
 }
 #avg aside {
   float: right;
@@ -58,12 +61,12 @@ h1.title {
 #avg .graph {
   width: 500px;
   float: left;
-  height: 270px;
+  height: 200px;
   /* border: 1px solid red; */
-  border: 1px solid rgba(255, 255, 255, 0.69);
+  border:none; /* 1px solid rgba(255, 255, 255, 0.69); */
   border-right: none;
   border-top: none;
-  margin: 0.5em 2em 0;
+  margin: 0;
 }
 #avg .graph:after {
   content: "";
@@ -73,31 +76,38 @@ h1.title {
   border-top: 1px dashed rgba(255, 255, 255, 0.69);
   margin-top: 150px;
   box-shadow: 1px 97px 0px rgba(255, 255, 255, 0.69);
+  border: none;
 }
 #avg .graph .bar {
-  height: 280px;
+  height: 205px;
   position: relative;
   width: 100px;
-  margin-left: 1em;
+  margin-left: 0;
   float: left;
 }
 #avg .graph .fill {
   position: absolute;
-  bottom: 2.5em;
-  width: 50px;
+  width: 60px;
   left: 50%;
   margin-left: -25px;
   /* border: 1px solid rgba(51, 51, 51, 0.52); */
   border: 1px solid black;
   border-right: none;
-  transition: height 5s;
+  transition: height 5, bottom 5s;
 }
 #avg .graph .title {
   position: absolute;
-  bottom: 0px;
+  top: -10px;
   font-size: 1em;
   text-align: center;
   width: 100%;
+  margin: 0;
+}
+#avg .graph .fill span {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  transition: bottom 5s;
 }
 #avg .graph .red .fill {
   background: rgb(247, 5, 5);
@@ -115,4 +125,28 @@ h1.title {
   background: rgb(250, 255, 51);
   box-shadow: 1px -5px 2px rgba(255, 246, 80, 0.65);
 }
+#avg .graph .blue .fill {
+  background: rgb(6, 85, 255);
+  box-shadow: 1px -5px 2px rgba(75, 131, 232, 0.55);
+}
 
+/* spider graphs */
+.axis line {
+  stroke: #FF;
+}
+
+.axis path {
+  fill: none;
+  stroke: #FFF;
+}
+
+.axis + .axis g text {
+  display: none;
+}
+
+.radar {
+  height: 250px;
+  width: 250px;
+  float: left;
+  margin: 0;
+}
