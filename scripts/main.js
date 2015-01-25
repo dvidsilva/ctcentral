@@ -81,15 +81,19 @@ angular.module('cogtech.central',[])
 })
 .service('$avg', function ($http) {
   var _this = this;
+  _this.avg = {};
+  _this.totalvisitors = 0;
   _this.fetch = function fetch () {
     return $http.jsonp('http://cloudbrain.rocks/data/aggregates/fft?callback=JSON_CALLBACK')
     .then(function (response) {
+      _this.avg = response.data;
       return response.data;
     });
   };
   _this.visitors = function visitors () {
     return $http.jsonp('http://cloudbrain.rocks/data/visitors?callback=JSON_CALLBACK')
     .then(function (response) {
+      _this.totalVisitors = response.data;
       return response.data;
     });
   };
@@ -256,18 +260,54 @@ angular.module('cogtech.central',[])
   };
   return f;
 })
-.directive('radarChart', function ($log) {
+.directive('radarChart', function ($log, $avg) {
   // http://bl.ocks.org/nbremer/6506614
   var f = {};
-  f.controller = function ($spacebrew) {
+  f.controller = function ($interval, $spacebrew) {
+    var _this = this;
+    _this.avgs = {
+      'alpha': 1,
+      'beta': 1,
+      'gamma': 1,
+      'theta': 1,
+      'delta': 1
+    };
+    _this.waves = ['alpha_absolute', 'beta_absolute', 'gamma_absolute', 'theta_absolute','delta_absolute'];
     // 1280 * 720
+    $interval(function () {
+      _this.obj = {};
+      angular.forEach(_this.avgs, function (v, k) {
+        if (!$avg.avg[k]) {
+          return;
+        }
+        _this.avgs[k] = ($avg.avg[k].avg + 1 ) * 10;
+      });
+      _this.data[1] = {
+        className : 'average',
+        axes: [
+          {axis: "Alpha", value: _this.avgs.alpha},
+          {axis: "Beta", value: _this.avgs.beta},
+          {axis: "Gama", value: _this.avgs.gamma},
+          {axis: "Theta", value: _this.avgs.theta},
+          {axis: "Delta", value: _this.avgs.delta},
+        ]
+      };
+      if(!$spacebrew.data[_this.muse] || !$spacebrew.data[_this.muse].alpha_absolute){
+        return;
+      }
+      angular.forEach(_this.data[0].axes, function (v, k) {
+        _this.data[0].value = ($spacebrew.data[_this.muse].alpha_absolute[_this.waves[k]] + 1 ) * 10;
+      });
+      _this.reDraw();
+    }, 1000);
   };
   f.link = function(scope, element, attributes, controller) {
     $log.info(scope, element, attributes, controller);
     var data, chart, svg, color;
-    data = [
+    controller.muse = attributes.muse || "5014";
+    controller.data = [
       {
-      className : 'alpha',
+      className : controller.muse,
       axes: [
         // xOffset, yOffset
         {axis: "Alpha", value: 16, xOffset: 10},
@@ -278,7 +318,7 @@ angular.module('cogtech.central',[])
       ]
     },
     {
-      className : 'averageaverage',
+      className : 'average',
       axes: [
         // xOffset, yOffset
         {axis: "Alpha", value: 19, xOffset: 10},
@@ -313,8 +353,10 @@ angular.module('cogtech.central',[])
     svg = d3.select(element[0]).append('svg')
     .attr('width', 230)
     .attr('height', 230);
-    svg.append('g').classed('focus', 1).datum(data).call(chart);
-
+    svg.append('g').classed('focus', 1).datum(controller.data).call(chart);
+    controller.reDraw = function reDraw () {
+      svg.datum(controller.data).call(chart);
+    };
   };
   return f;
 })
@@ -335,7 +377,17 @@ angular.module('cogtech.central',[])
     'theta_absolute',
     'delta_absolute'
   ];
-
+  // object holds the data that comes from spacebrew
+  // key is the muse-id, value is the array thing
+  _this.data = {
+    "5014" : {
+      alpha: ['/muse/elements/alpha_absolute',0.1,0.1,0.1,0.1,5008],
+      beta: ['beta',1,0,0,5014],
+      gamma: ['gamma',0.2,0,0,5014],
+      theta: ['theta',0.3,0,0,5014],
+      delta: ['delta',-0.5,0,0,5014]
+    }
+  };
   sb = function init () {
     var sb;
     sb = new Spacebrew.Client(
@@ -343,8 +395,8 @@ angular.module('cogtech.central',[])
     );
     sb.extend(Spacebrew.Admin);
     sb.onStringMessage = function (name, value) {
-      $log.info('message received');
-      $log.info(name, value);
+      $log.info("message received", name, value);
+      _this.data["5014"][name] = value.split(",");
     };
     sb.onOpen = function () {
       $log.info('connected to Spacebrew');
@@ -381,14 +433,16 @@ angular.module('cogtech.central',[])
       $log.info('postponing creation of routes');
       return;
     }
+    $log.info(_this.client);
     angular.forEach(_this.waves, function (wave) {
-      $log.info('adding route', client.name, client.remoteAddress, wave);
-      sb.addRoute( client.name, client.remoteAdress, wave,
-                  _this.client.name, _this.client.remoteAdress, wave);
+      // $log.info('adding route', client.name, client.remoteAddress, wave);
+      // sb.addRoute( client.name, client.remoteAdress, wave,
+      //             _this.client.name, _this.client.remoteAdress, wave);
     });
   };
 
-  // sb.addRoute( 'muse-001', 'remoteAdress', 'delta_absolute', 'data-viz', 'local adress', 'delta-absolute-muse-001' );
+//cloudbrain.rocks/link?pub_metric=alpha_absolute&sub_metric=alpha_absolute&publisher=muse-5014&subscriber=data-visualization&sub_ip=8.31.67.210&pub_ip=127.0.0.1
+
 
 });
 // http://cloudbrain.rocks/
@@ -404,60 +458,3 @@ angular.module('cogtech.central',[])
 // GET
 //
 // http://cloudbrain.rocks/link?pub_metric=beta_absolute&sub_metric=beta_absolute&publisher=muse-001&subscriber=data-visualization
-
-
-//Radar chart
-// var data = [
-//   {
-//     className : 'alpha',
-//     axes: [
-//       {axis: "Alpha", value: 6, yOffset: 10},
-//       {axis: "Beta", value: 4},
-//       {axis: "Gama", value: 0},
-//       {axis: "Theta", value: 4, xOffset: -20}
-//     ]
-//   },
-//   {
-//     className : 'beta',
-//     axes: [
-//       {axis: "Alpha", value: 4},
-//       {axis: "Beta", value: 6},
-//       {axis: "Gama", value: 4},
-//       {axis: "Theta", value: 0}
-//     ]
-//   },
-//   {
-//     className : 'gamma',
-//     axes: [
-//       {axis: "Alpha", value: 0},
-//       {axis: "Beta", value: 4},
-//       {axis: "Gama", value: 6},
-//       {axis: "Theta", value: 4}
-//     ]
-//   },
-//   {
-//     className : 'theta',
-//     axes: [
-//       {axis: "Alpha", value: 4},
-//       {axis: "Beta", value: 0},
-//       {axis: "Gama", value: 4},
-//       {axis: "Theta", value: 6}
-//     ]
-//   }
-//   ];
-//   //RadarChart.draw(elem[0], data);
-//   var chart = RadarChart.chart();
-//   chart.config({
-//     maxValue: 10,
-//     radians: 2 * Math.PI,
-//     axisLine: false,
-//     levels: 2,
-//     circles: true,
-//     radius: 5
-//   });
-//   var svg = d3.select(elem[0]).append('svg')
-//   .attr('width', 600)
-//   .attr('height', 800);
-//   svg.append('g').classed('focus', 1).datum(data).call(chart);
-
-

@@ -98,7 +98,7 @@ h1.title {
   /* border: 1px solid rgba(51, 51, 51, 0.52); */
   border: 1px solid black;
   border-right: none;
-  transition: height 5, bottom 5s;
+  transition: height 5, bottom 5s, top 5s;
 }
 #avg .graph .title {
   position: absolute;
