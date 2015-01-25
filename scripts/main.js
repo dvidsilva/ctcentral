@@ -446,10 +446,8 @@ angular.module('cogtech.central',[])
       angular.forEach(_this.waves, function(wave) {
         var url = "http://cloudbrain.rocks/link?pub_metric="+wave+"&"+
         "sub_metric="+wave+"-"+id+"&publisher="+client.name+
-          "&subscriber="+_this.client.name+"&sub_ip="+_this.client.remoteAdress+"0&pub_ip="+client.remoteAdress;
-        $log.info(url);
-        return;
-        $http.get(url).then(function (response) {
+          "&subscriber="+_this.client.name+"&sub_ip="+_this.client.remoteAddress+"0&pub_ip="+client.remoteAddress;
+        $http.jsonp(url + "&callback=JSON_CALLBACK").then(function (response) {
           $log.info(response.data);
         });
       });
