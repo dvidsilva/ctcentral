@@ -45,8 +45,11 @@ h1.title {
   overflow: hidden;
 }
 #avg aside {
-  float: right;
-  width: 400px;
+  float: left;
+  width: 520px;
+}
+#avg aside dl {
+  margin: 0;
 }
 #avg aside dt {
   font-weight: 700;
@@ -56,16 +59,21 @@ h1.title {
 }
 #avg aside dd {
   display: inline;
-  margin-left: 0.5em;
+  margin-left: 0;
 }
 #avg .zero {
   margin-top: 104px;
   border-top: 1px dashed white;
   height: 1px;
 }
+#avg .zero span {
+  display: block;
+  margin-top: -12px;
+  position: absolute;
+}
 #avg .graph {
-  width: 500px;
-  float: left;
+  width: 450px;
+  float: right;
   height: 200px;
   /* border: 1px solid red; */
   border:none; /* 1px solid rgba(255, 255, 255, 0.69); */
@@ -86,7 +94,7 @@ h1.title {
 #avg .graph .bar {
   height: 205px;
   position: relative;
-  width: 100px;
+  width: 86px;
   margin-left: 0;
   float: left;
 }
@@ -150,8 +158,8 @@ h1.title {
 }
 
 .radar {
-  height: 250px;
-  width: 250px;
+  height: 200px;
+  width: 200px;
   float: left;
   margin: 0;
 }

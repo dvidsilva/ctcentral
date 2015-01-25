@@ -310,22 +310,22 @@ angular.module('cogtech.central',[])
       className : controller.muse,
       axes: [
         // xOffset, yOffset
-        {axis: "Alpha", value: 16, xOffset: 10},
-        {axis: "Alpha", value: 16, xOffset: 10},
+        {axis: "Alpha", value: 16},
         {axis: "Beta", value: 14},
         {axis: "Gamma", value: 18},
         {axis: "Theta", value: 14},
+        {axis: "Delta", value: 14},
       ]
     },
     {
       className : 'average',
       axes: [
         // xOffset, yOffset
-        {axis: "Alpha", value: 19, xOffset: 10},
+        {axis: "Alpha", value: 19},
         {axis: "Beta", value: 18},
         {axis: "Gamma", value: 19},
         {axis: "Theta", value: 14},
-        {axis: "Delta", value: 20, xOffset: 10},
+        {axis: "Delta", value: 20},
       ]
     }
 
@@ -344,8 +344,8 @@ angular.module('cogtech.central',[])
       levels: 10,
       circles: true,
       radius: 5,
-      w: 230,
-      h: 230,
+      w: 180,
+      h: 180,
       ExtraWidthX: 100,
       ExtraWidthY: 100,
       color: d3.scale.category20()
