@@ -17,6 +17,7 @@ body {
   margin: 0;
   font-size: 15px;
   font-family: Roboto, arial, sans-serif;
+  color: white;
 }
 
 .clearfix {
@@ -46,7 +47,33 @@ h1.title {
 }
 #avg aside {
   float: left;
-  width: 520px;
+  width: 400px;
+  margin-left: 20px;
+  display: none;
+}
+.legends {
+  height: 1.3em;
+}
+.legends p {
+  float: left;
+  margin: 0;
+  line-height: 12px;
+}
+.legends p:last-child {
+  margin-left: 20px;
+}
+.legends .legend {
+  width: 1em;
+  height: 1em;
+  display: block;
+  float: left;
+  margin-right: 1em;
+}
+.legends .legend.live {
+  background: rgb(31, 119, 180);
+}
+.legends .legend.avg {
+  background: rgb(174, 199, 232);
 }
 #avg aside dl {
   margin: 0;
@@ -60,6 +87,7 @@ h1.title {
 #avg aside dd {
   display: inline;
   margin-left: 0;
+  display: none;
 }
 #avg .zero {
   margin-top: 104px;
@@ -72,8 +100,8 @@ h1.title {
   position: absolute;
 }
 #avg .graph {
-  width: 450px;
-  float: right;
+  width: 672px;
+  float: left;
   height: 200px;
   /* border: 1px solid red; */
   border:none; /* 1px solid rgba(255, 255, 255, 0.69); */
@@ -94,7 +122,7 @@ h1.title {
 #avg .graph .bar {
   height: 205px;
   position: relative;
-  width: 86px;
+  width: 130px;
   margin-left: 0;
   float: left;
 }
@@ -110,21 +138,26 @@ h1.title {
 }
 #avg .graph .title {
   position: absolute;
-  top: -14px;
+  bottom: 90px;
   font-size: 1em;
   text-align: center;
   width: 100%;
   margin: 0;
+  z-index: 12;
 }
 #avg .graph .fill span {
   position: absolute;
   width: 100%;
   text-align: center;
   transition: bottom 5s;
+  overflow: visible;
+  white-space: nowrap;
+  margin-left: -16px;
 }
 #avg .graph .red .fill {
   background: rgb(247, 5, 5);
   box-shadow: 1px -5px 2px rgba(255, 0, 0, 0.55);
+  /* width: 89px; */
 }
 #avg .graph .orange .fill {
   background: rgb(255, 138, 6);
@@ -161,7 +194,11 @@ h1.title {
   height: 200px;
   width: 200px;
   float: left;
-  margin: 0;
+  margin: 10px 0 0 0;
+}
+.radar p {
+  color: white;
+  font-size: 0.9em;
 }
 .radar text {
   fill: white;

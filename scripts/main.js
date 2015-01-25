@@ -86,6 +86,7 @@ angular.module('cogtech.central',[])
   _this.fetch = function fetch () {
     return $http.jsonp('http://cloudbrain.rocks/data/aggregates/fft?callback=JSON_CALLBACK')
     .then(function (response) {
+      debugger;
       _this.avg = response.data;
       return response.data;
     });
@@ -104,10 +105,10 @@ angular.module('cogtech.central',[])
     'value': '=',
   };
   f.template = "<div class='bar {{data.color}}' >"+
-    "<h2 class='title' data-ng-bind='data.title'></h2>" +
+    "<!--<h2 class='title' data-ng-bind='data.title'></h2>-->" +
     "<div class='fill' ng-style=\"{'height': data.height , 'bottom' : data.bottom, 'top' : data.top }\">"+
     "<span ng-style=\"{'bottom': data.labelHeight }\">"+
-    "{{data.value | double:2}} dB</span></div>" +
+    "{{data.title}} ({{data.value | double:2}} dB)</span></div>" +
     "</div>";
   f.controllerAs = "data";
   f.controller = function ($timeout, $interval) {
@@ -301,6 +302,8 @@ angular.module('cogtech.central',[])
       _this.reDraw();
     }, 1000);
   };
+  f.controllerAs = "radar";
+  f.template = "<p>Muse #{{radar.muse}}</p>";
   f.link = function(scope, element, attributes, controller) {
     $log.info(scope, element, attributes, controller);
     var data, chart, svg, color;
