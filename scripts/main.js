@@ -303,6 +303,8 @@ angular.module('cogtech.central',[])
       _this.reDraw();
     }, 1000);
   };
+  f.scope = {
+  };
   f.controllerAs = "radar";
   f.template = "<p>Muse #{{radar.muse}}</p>";
   f.link = function(scope, element, attributes, controller) {

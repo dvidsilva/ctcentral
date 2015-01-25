@@ -18,6 +18,8 @@ body {
   font-size: 15px;
   font-family: Roboto, arial, sans-serif;
   color: white;
+  max-height: 710px;
+  overflow: hidden;
 }
 
 .clearfix {
