@@ -6,19 +6,19 @@ angular.module('cogtech.central',[])
   _this.waves = ['alpha', 'beta', 'gamma', 'theta', 'delta'];
 
   _this.r.alpha = [14,19];
-  _this.c.alpha = 0;
+  _this.c.alpha = 0.1;
 
   _this.r.beta = [14,19];
-  _this.c.beta = 0;
+  _this.c.beta = 0.4;
 
   _this.r.gamma = [14,19];
-  _this.c.gamma = 0;
+  _this.c.gamma = 0.5;
 
   _this.r.theta = [14,19];
-  _this.c.theta = 0;
+  _this.c.theta = 0.3;
 
   _this.r.delta = [14,19];
-  _this.c.delta = 0;
+  _this.c.delta = 0.2;
 
   _this.totalvisitors = 102;
 
@@ -86,9 +86,10 @@ angular.module('cogtech.central',[])
   _this.fetch = function fetch () {
     return $http.jsonp('http://cloudbrain.rocks/data/aggregates/fft?callback=JSON_CALLBACK')
     .then(function (response) {
-      debugger;
       _this.avg = response.data;
       return response.data;
+    }, function (response) {
+      _this.avg = {};
     });
   };
   _this.visitors = function visitors () {

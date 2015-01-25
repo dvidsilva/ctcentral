@@ -100,7 +100,7 @@ h1.title {
   position: absolute;
 }
 #avg .graph {
-  width: 672px;
+  width: 100%;
   float: left;
   height: 200px;
   /* border: 1px solid red; */
@@ -125,6 +125,7 @@ h1.title {
   width: 130px;
   margin-left: 0;
   float: left;
+  width: 18%;
 }
 #avg .graph .fill {
   position: absolute;
@@ -135,6 +136,7 @@ h1.title {
   border: 1px solid black;
   border-right: none;
   transition: height 5, bottom 5s, top 5s;
+  width: 100px;
 }
 #avg .graph .title {
   position: absolute;
@@ -152,12 +154,14 @@ h1.title {
   transition: bottom 5s;
   overflow: visible;
   white-space: nowrap;
-  margin-left: -16px;
+  margin-left: -2px;
+  line-height: 29px;
 }
 #avg .graph .red .fill {
   background: rgb(247, 5, 5);
   box-shadow: 1px -5px 2px rgba(255, 0, 0, 0.55);
   /* width: 89px; */
+  /* width: 93px; */
 }
 #avg .graph .orange .fill {
   background: rgb(255, 138, 6);
