@@ -39,7 +39,7 @@ h1.title {
   background: black;
   padding: 1em;
   margin: 0;
-  border-bottom: 1px solid white;
+  /* border-bottom: 1px solid white; */
   color: white;
   height: 220px;
   overflow: hidden;
@@ -57,6 +57,11 @@ h1.title {
 #avg aside dd {
   display: inline;
   margin-left: 0.5em;
+}
+#avg .zero {
+  margin-top: 104px;
+  border-top: 1px dashed white;
+  height: 1px;
 }
 #avg .graph {
   width: 500px;
@@ -87,7 +92,7 @@ h1.title {
 }
 #avg .graph .fill {
   position: absolute;
-  width: 60px;
+  width: 66px;
   left: 50%;
   margin-left: -25px;
   /* border: 1px solid rgba(51, 51, 51, 0.52); */
@@ -97,7 +102,7 @@ h1.title {
 }
 #avg .graph .title {
   position: absolute;
-  top: -10px;
+  top: -14px;
   font-size: 1em;
   text-align: center;
   width: 100%;
@@ -149,4 +154,10 @@ h1.title {
   width: 250px;
   float: left;
   margin: 0;
+}
+.radar text {
+  fill: white;
+}
+.radar-chart-serie1 {
+  fill: none !important;
 }

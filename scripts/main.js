@@ -3,19 +3,22 @@ angular.module('cogtech.central',[])
   var _this = this, rand, fetch, draw;
   _this.c = {};
   _this.r = {};
-  _this.waves = ['alpha', 'beta', 'gamma', 'theta'];
+  _this.waves = ['alpha', 'beta', 'gamma', 'theta', 'delta'];
 
   _this.r.alpha = [14,19];
-  _this.c.alpha = 1;
+  _this.c.alpha = 0;
 
   _this.r.beta = [14,19];
-  _this.c.beta = 1;
+  _this.c.beta = 0;
 
   _this.r.gamma = [14,19];
-  _this.c.gamma = 1;
+  _this.c.gamma = 0;
 
   _this.r.theta = [14,19];
-  _this.c.theta = 1;
+  _this.c.theta = 0;
+
+  _this.r.delta = [14,19];
+  _this.c.delta = 0;
 
   _this.totalvisitors = 102;
 
@@ -26,7 +29,6 @@ angular.module('cogtech.central',[])
   $interval(function intervalDraw () {
     draw();
   }, 1000);
-
   draw = function draw () {
     angular.forEach(_this.waves, function (v) {
       _this.c[v] = rand(_this.c[v], _this.r[v]);
@@ -112,17 +114,16 @@ angular.module('cogtech.central',[])
       _this.calcHeight();
     }, 2000);
     _this.calcHeight = function calcHeight () {
-      _this.value = -10;
       if (_this.value >= 0 ) {
         _this.bottom = '100px';
         _this.top = "";
-        _this.height =  _this.value > 0 ? (parseInt(_this.value * 10 ) * 0.6 ) + 20 + "px" : "10px";
-        _this.labelHeight = _this.value > 0 ? parseInt(_this.bottom.replace("px","")) + 5: "15px";
+        _this.height =  _this.value > 0 ? parseInt((_this.value * 10 ) * 0.8 ) + "px" : "10px";
+        _this.labelHeight = _this.height;
       } else {
-        _this.top = parseInt(_this.value * -10 ) * 0.6 + 100 + "px";
+        _this.top = "100px";
         _this.bottom = "";
-        _this.height =   parseInt(_this.bottom.replace("px","")) - 100 +  "px";
-        _this.labelHeight = "-25px";
+        _this.height =  ((+_this.value * -10 ) * 0.8 ) + "px";
+        _this.labelHeight = _this.height;
       }
     };
     _this.calcHeight();
@@ -130,9 +131,9 @@ angular.module('cogtech.central',[])
   f.link = function (scope, elem, attrs, controller) {
     controller.title = attrs.title;
     controller.color = attrs.color;
-    controller.value = scope.value ;
+    controller.value = scope.value * 10;
     $interval(function () {
-      controller.value = scope.value ;
+      controller.value = scope.value * 10;
     }, 1000);
   };
   return f;
@@ -144,7 +145,7 @@ angular.module('cogtech.central',[])
 })
 .filter('double', function () {
   return function(input) {
-    return (input).toFixed(2);
+    return (input).toFixed(1);
   };
 })
 .controller('chartsController', function () {
@@ -255,14 +256,15 @@ angular.module('cogtech.central',[])
   };
   return f;
 })
-.directive('radarChart', function ($log, $spacebrew) {
+.directive('radarChart', function ($log) {
+  // http://bl.ocks.org/nbremer/6506614
   var f = {};
-  f.controller = function () {
+  f.controller = function ($spacebrew) {
     // 1280 * 720
   };
   f.link = function(scope, element, attributes, controller) {
     $log.info(scope, element, attributes, controller);
-    var data, chart, svg;
+    var data, chart, svg, color;
     data = [
       {
       className : 'alpha',
@@ -280,15 +282,20 @@ angular.module('cogtech.central',[])
       axes: [
         // xOffset, yOffset
         {axis: "Alpha", value: 19, xOffset: 10},
-        {axis: "Alpha", value: 20, xOffset: 10},
         {axis: "Beta", value: 18},
         {axis: "Gama", value: 19},
         {axis: "Theta", value: 14},
+        {axis: "Delta", value: 20, xOffset: 10},
       ]
     }
 
     ];
-    //RadarChart.draw(elem[0], data);
+    color = function color (i) {
+      // return '#1f77b4';
+      // https://github.com/mbostock/d3/wiki/Ordinal-Scales
+      //$log.debug(d3.scale.category20c(i));
+      return d3.scale.category10()(i);
+    };
     chart = RadarChart.chart();
     chart.config({
       maxValue: 25,
@@ -298,11 +305,14 @@ angular.module('cogtech.central',[])
       circles: true,
       radius: 5,
       w: 230,
-      h: 230
+      h: 230,
+      ExtraWidthX: 100,
+      ExtraWidthY: 100,
+      color: d3.scale.category20()
     });
     svg = d3.select(element[0]).append('svg')
-    .attr('width', 600)
-    .attr('height', 800);
+    .attr('width', 230)
+    .attr('height', 230);
     svg.append('g').classed('focus', 1).datum(data).call(chart);
 
   };
@@ -322,7 +332,8 @@ angular.module('cogtech.central',[])
     'alpha_absolute',
     'beta_absolute',
     'gamma_absolute',
-    'theta_absolute'
+    'theta_absolute',
+    'delta_absolute'
   ];
 
   sb = function init () {
@@ -366,7 +377,7 @@ angular.module('cogtech.central',[])
   };
 
   _this.addRoute = function addRoute (client) {
-    if(!_this.client.name) {
+    if(!_this.client || !_this.client.name) {
       $log.info('postponing creation of routes');
       return;
     }
