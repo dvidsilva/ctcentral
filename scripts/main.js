@@ -287,7 +287,7 @@ angular.module('cogtech.central',[])
         axes: [
           {axis: "Alpha", value: _this.avgs.alpha},
           {axis: "Beta", value: _this.avgs.beta},
-          {axis: "Gama", value: _this.avgs.gamma},
+          {axis: "Gamma", value: _this.avgs.gamma},
           {axis: "Theta", value: _this.avgs.theta},
           {axis: "Delta", value: _this.avgs.delta},
         ]
@@ -313,7 +313,7 @@ angular.module('cogtech.central',[])
         {axis: "Alpha", value: 16, xOffset: 10},
         {axis: "Alpha", value: 16, xOffset: 10},
         {axis: "Beta", value: 14},
-        {axis: "Gama", value: 18},
+        {axis: "Gamma", value: 18},
         {axis: "Theta", value: 14},
       ]
     },
@@ -323,7 +323,7 @@ angular.module('cogtech.central',[])
         // xOffset, yOffset
         {axis: "Alpha", value: 19, xOffset: 10},
         {axis: "Beta", value: 18},
-        {axis: "Gama", value: 19},
+        {axis: "Gamma", value: 19},
         {axis: "Theta", value: 14},
         {axis: "Delta", value: 20, xOffset: 10},
       ]
@@ -360,9 +360,12 @@ angular.module('cogtech.central',[])
   };
   return f;
 })
-.service('$spacebrew', function ($timeout, $log) {
+.service('$spacebrew', function ($timeout, $log, $http) {
   var sb, _this;
   _this = this;
+  _this.museIds = [
+    '5014', '5008'
+  ];
   _this.museClients = [];
   _this.client = {};
   _this.options = {
@@ -377,6 +380,12 @@ angular.module('cogtech.central',[])
     'theta_absolute',
     'delta_absolute'
   ];
+  _this.channels = [];
+  angular.forEach(_this.museIds, function (client) {
+    angular.forEach(_this.waves, function (wave) {
+      _this.channels.push(wave + '-' +client);
+    });
+  });
   // object holds the data that comes from spacebrew
   // key is the muse-id, value is the array thing
   _this.data = {
@@ -415,7 +424,7 @@ angular.module('cogtech.central',[])
     sb.onRemoveClient(function (client) {
       $log.info(client);
     });
-    angular.forEach(_this.waves, function (wave) {
+    angular.forEach(_this.channels, function (wave) {
       sb.addSubscribe(wave, "string");
     });
     sb.connect();
@@ -433,9 +442,17 @@ angular.module('cogtech.central',[])
       $log.info('postponing creation of routes');
       return;
     }
-    $log.info(_this.client);
-    angular.forEach(_this.waves, function (wave) {
-      // $log.info('adding route', client.name, client.remoteAddress, wave);
+    angular.forEach(_this.museIds, function (id) {
+      angular.forEach(_this.waves, function(wave) {
+        var url = "http://cloudbrain.rocks/link?pub_metric="+wave+"&"+
+        "sub_metric="+wave+"-"+id+"&publisher="+client.name+
+          "&subscriber="+_this.client.name+"&sub_ip="+_this.client.remoteAdress+"0&pub_ip="+client.remoteAdress;
+        $log.info(url);
+        return;
+        $http.get(url).then(function (response) {
+          $log.info(response.data);
+        });
+      });
       // sb.addRoute( client.name, client.remoteAdress, wave,
       //             _this.client.name, _this.client.remoteAdress, wave);
     });
