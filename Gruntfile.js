@@ -7,7 +7,7 @@ module.exports = function(grunt) {
           // includes files within path and its sub-directories
           {expand: true, src: ['average.html','radar.html'], dest: '../api/templates'},
           // makes all src relative to cwd
-          {expand: true, src: ['static/**/*'], dest: '../api/static'},
+          {expand: true, src: ['static/**/*'], dest: '../api/'},
         ],
       },
 
