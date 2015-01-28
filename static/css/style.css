@@ -1,6 +1,4 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700,500);
-
-
 /*http://www.paulirish.com/2012/box-sizing-border-box-ftw/*/
 html {
   box-sizing: border-box;
@@ -8,23 +6,41 @@ html {
 *, *:before, *:after {
   box-sizing: inherit;
 }
-
-
 body {
-  background: rgba(0,0,0,1);
-  height: 750;
-  width:  1280;
+  background-color: rgba(0,0,0,1);
+  background-image: url('../img/bg.png');
+  height: 750px;
+  width:  1270px;
   padding: 0;
-  margin: 0;
+  margin: 0 auto;
   font-size: 15px;
   font-family: Roboto, arial, sans-serif;
   color: white;
   max-height: 710px;
   overflow: hidden;
-  max-width: 1024px;
+  max-width: 1270px;
   margin: 0 auto;
+  overflow: hidden;
+  background-size: cover;
 }
-
+main {
+  margin: 0 auto;
+  padding: 0;
+  max-width: 1270px;
+  overflow: hidden;
+  max-height: 710px;
+}
+header {
+  display: block;
+  background: black;
+  height: 35px;
+  overflow: hidden;
+  width: 100%;
+}
+header .logo {
+  height: 30px;
+  margin: 3px 2px 2px;
+}
 .clearfix {
   overflow: auto;
 }
