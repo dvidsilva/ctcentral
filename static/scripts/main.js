@@ -4,10 +4,8 @@ angular.module('cogtech.central',[])
   f.template = ''+
     '<img src="/static/img/brain.png" alt="cloud brain" class="logo">'+
     ' <h1>CloudBrain</h1>'+
-    '<div style="height: 1.3em;" class="legends">'+
-    ' <p style="float: left; margin: 0;"><span class="legend live">&nbsp;</span> Live Muse Data</p>'+
-    '<p style="float: left; margin: 0; margin-left: 20px;"><span class="legend avg">&nbsp;</span> Average Across All Visitors</p>'+
-    '</div>';
+    '<ng-transclude></ng-transclude>';
+  f.transclude = true;
   f.scope = {};
   return f;
 })
@@ -394,26 +392,26 @@ angular.module('cogtech.central',[])
 })
 .service('muses', function () {
   return [
-    {id: 5001, color: 'red', number: 1},
-    {id: 5002, color: 'red', number: 2},
-    {id: 5003, color: 'red', number: 3},
-    {id: 5004, color: 'red', number: 4},
-    {id: 5005, color: 'red', number: 5},
-    {id: 5006, color: 'red', number: 6},
-    {id: 5007, color: 'red', number: 7},
-    {id: 5008, color: 'red', number: 8},
-    {id: 5009, color: 'red', number: 9},
-    {id: 5010, color: 'red', number: 10},
-    {id: 5011, color: 'red', number: 11},
-    {id: 5012, color: 'red', number: 12},
-    {id: 5013, color: 'red', number: 13},
-    {id: 5014, color: 'red', number: 14},
-    {id: 5015, color: 'red', number: 15},
-    {id: 5016, color: 'red', number: 16},
-    {id: 5017, color: 'red', number: 17},
-    {id: 5018, color: 'red', number: 18},
-    {id: 5019, color: 'red', number: 19},
-    {id: 5020, color: 'red', number: 20},
+    {id: 5001, color: 'white', number: 1},
+    {id: 5002, color: 'white', number: 2},
+    {id: 5003, color: 'white', number: 3},
+    {id: 5004, color: 'white', number: 4},
+    {id: 5005, color: 'white', number: 5},
+    {id: 5006, color: 'white', number: 6},
+    {id: 5007, color: 'white', number: 7},
+    {id: 5008, color: 'white', number: 8},
+    {id: 5009, color: 'white', number: 9},
+    {id: 5010, color: 'white', number: 10},
+    {id: 5011, color: 'white', number: 11},
+    {id: 5012, color: 'white', number: 12},
+    {id: 5013, color: 'white', number: 13},
+    {id: 5014, color: 'white', number: 14},
+    {id: 5015, color: 'white', number: 15},
+    {id: 5016, color: 'white', number: 16},
+    {id: 5017, color: 'white', number: 17},
+    {id: 5018, color: 'white', number: 18},
+    {id: 5019, color: 'white', number: 19},
+    {id: 5020, color: 'white', number: 20},
   ];
 })
 .service('$spacebrew', function ($timeout, $log, $http, muses) {
@@ -425,9 +423,9 @@ angular.module('cogtech.central',[])
   _this.data = {};
   _this.options = {
     name: 'data-visualization',
-    server : 'cloudbrain.rocks',
+    server : '208.66.31.59',
     description : 'Main dashboard in room',
-    cloudbrain: 'cloudbrain.rocks'
+    cloudbrain: '54.183.68.29'
   };
   _this.waves = [
     'alpha_absolute',
@@ -496,6 +494,9 @@ angular.module('cogtech.central',[])
   };
 
   _this.addRoute = function addRoute (client) {
+    if(!client || !client.name){
+      return;
+    }
     if(!_this.client || !_this.client.name) {
       $log.info('postponing creation of routes');
       return;
@@ -507,9 +508,9 @@ angular.module('cogtech.central',[])
           "&subscriber="+_this.client.name+"&sub_ip="+_this.client.remoteAddress+"0&pub_ip="+client.remoteAddress;
         // TODO, could replace client.remoteAddress with ip of server
         $log.info(url);
-        $http.jsonp(url + "&callback=JSON_CALLBACK").then(function (response) {
-          $log.info(response.data);
-        });
+        //  $http.jsonp(url + "&callback=JSON_CALLBACK").then(function (response) {
+        //   $log.info(response.data);
+        //  });
       });
     });
   };
