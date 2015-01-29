@@ -108,6 +108,7 @@ h1.title {
   display: block;
   float: left;
   margin-right: 1em;
+  border: 1px solid white;
 }
 .legends .legend.live {
   background: rgb(174, 199, 232);
@@ -291,9 +292,10 @@ h1.title {
 body.main {
   font-size: 25px;
   padding: 0;
-  padding-top: 400px;
+  padding-top: 510px;
   width: 100%;
   margin: 0;
+  min-height: 1500px;
   height: auto;
   max-height: 100%;
   overflow:auto;
@@ -307,6 +309,7 @@ body.main .container {
   margin: auto;
   max-height: 1000px;
   overflow: hidden;
+  margin-bottom: 20px;
 }
 body.main .container .radar {
   margin: 0;
@@ -316,6 +319,9 @@ body.main .container .radar {
   margin-left: 15px;
   background: rgba(0, 0, 0, 0.71);
   border: none;
+}
+body.main .container .radar text {
+  font-size: 15px !important;
 }
 body.main .container .radar p{
   font-size: 1em;
@@ -327,8 +333,11 @@ body.main .container .radar .icon{
 }
 body.main .container .radar > svg{
   margin-left: 7%;
+  overflow: visible;
 }
-
+body.main .radar-chart .axis .legend.right {
+  text-anchor: middle;
+}
 body.main .container .radar:nth-child(5n+1) {
   /* margin-left: 0; */
 }
