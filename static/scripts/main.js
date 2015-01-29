@@ -472,7 +472,7 @@ angular.module('cogtech.central',[], function($locationProvider) {
     sb.onStringMessage = function (name, value) {
       $log.info("message received", name, value);
       // TODO fix the shitty regex
-      _this.data[name.replace(/.*_absolute-muse/,'')][name.replace(/-muse-.*/,'')] = value.split(",");
+      _this.data[name.replace(/.*_absolute-muse-/,'')][name.replace(/-muse-.*/,'')] = value.split(",");
     };
     sb.onOpen = function () {
       $log.info('connected to Spacebrew');
